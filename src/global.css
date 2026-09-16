@@ -1,0 +1,333 @@
+:root {
+  /* CORES */
+  --bg: #14110f;
+  --bg-alt: #1d1815;
+  --surface: #262019;
+  --surface-line: #3a3229;
+
+  --gold: #c9a227;
+  --gold-bright: #e6c35c;
+
+  --cream: #f3eee4;
+  --muted: #a99c89;
+
+  /* FONTES */
+  --font-display: "Bebas Neue", "Arial Narrow", sans-serif;
+  --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+
+  /* LAYOUT */
+  --max-w: 1240px;
+  --gutter: clamp(1rem, 4vw, 4rem);
+
+  /* MOTION */
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* RESET */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--cream);
+  font-family: var(--font-body);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* textura sutil para tirar o efeito "chapado" do fundo escuro */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+ul {
+  list-style: none;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: 0.01em;
+}
+
+/* acessibilidade: foco visível para navegação por teclado */
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid var(--gold-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* CONTAINER */
+
+.container {
+  width: 100%;
+  max-width: var(--max-w);
+  margin: 0 auto;
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+}
+
+/* BOTÕES */
+
+.btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+
+  padding: 1rem 2rem;
+
+  border-radius: 8px;
+
+  font-weight: 600;
+
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease),
+    background 0.3s ease, color 0.3s ease;
+
+  cursor: pointer;
+}
+
+.btn:active {
+  transform: translateY(1px) scale(0.98);
+}
+
+.btn-solid {
+  background: var(--gold);
+  color: #14110f;
+}
+
+.btn-solid:hover {
+  background: var(--gold-bright);
+  transform: translateY(-3px);
+  box-shadow: 0 14px 28px -10px rgba(230, 195, 92, 0.55);
+}
+
+.btn-solid::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    115deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.55) 48%,
+    transparent 66%
+  );
+  transform: translateX(-120%);
+}
+
+.btn-solid:hover::before {
+  transform: translateX(120%);
+  transition: transform 0.75s var(--ease);
+}
+
+.btn-outline {
+  border: 1px solid var(--gold);
+  color: var(--gold);
+}
+
+.btn-outline:hover {
+  background: var(--gold);
+  color: #14110f;
+  transform: translateY(-3px);
+}
+
+/* SECTIONS */
+
+main {
+  counter-reset: section-counter;
+}
+
+.section {
+  position: relative;
+  padding: 6rem 0;
+}
+
+.section--alt {
+  background: var(--bg-alt);
+}
+
+.section__header {
+  position: relative;
+  margin-bottom: 2rem;
+  counter-increment: section-counter;
+}
+
+/* numeral fantasma atrás do título — dá peso editorial à seção */
+.section__header::before {
+  content: counter(section-counter, decimal-leading-zero);
+  position: absolute;
+  top: -0.55em;
+  left: -0.04em;
+  font-family: var(--font-display);
+  font-size: clamp(4.5rem, 13vw, 10rem);
+  line-height: 1;
+  color: rgba(201, 162, 39, 0.06);
+  -webkit-text-stroke: 1px rgba(201, 162, 39, 0.28);
+  pointer-events: none;
+  user-select: none;
+}
+
+.section__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+
+  color: var(--gold);
+
+  text-transform: uppercase;
+
+  letter-spacing: 0.12em;
+
+  font-size: 0.8rem;
+  font-weight: 700;
+
+  margin-bottom: 0.75rem;
+}
+
+.section__eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 22px;
+  height: 2px;
+  background: var(--gold);
+}
+
+.section__header h2 {
+  position: relative;
+  font-size: clamp(2rem, 5vw, 4rem);
+  line-height: 1;
+}
+
+/* =========================
+   SCROLLBAR
+========================= */
+
+html {
+  scrollbar-color: var(--surface-line) var(--bg);
+  scrollbar-width: thin;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--surface-line);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold);
+}
+
+/* =========================
+   CURSOR PERSONALIZADO (desktop com mouse)
+========================= */
+
+.cursor-dot,
+.cursor-ring {
+  position: fixed;
+  top: 0;
+  left: 0;
+  display: none;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100000;
+  will-change: transform;
+}
+
+.cursor-dot {
+  width: 8px;
+  height: 8px;
+  background: var(--gold-bright);
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.cursor-ring {
+  width: 40px;
+  height: 40px;
+  margin: -20px 0 0 -20px;
+  border: 1px solid var(--gold);
+  opacity: 0;
+  transition: opacity 0.2s ease, width 0.25s var(--ease),
+    height 0.25s var(--ease), margin 0.25s var(--ease),
+    border-color 0.25s ease, background 0.25s ease;
+}
+
+.cursor-dot {
+  margin: -4px 0 0 -4px;
+}
+
+.cursor-ring--active {
+  width: 68px;
+  height: 68px;
+  margin: -34px 0 0 -34px;
+  background: rgba(201, 162, 39, 0.14);
+  border-color: var(--gold-bright);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cursor-dot,
+  .cursor-ring {
+    display: block;
+  }
+
+  body.has-custom-cursor,
+  body.has-custom-cursor a,
+  body.has-custom-cursor button {
+    cursor: none;
+  }
+}
